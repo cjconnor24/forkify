@@ -12,12 +12,13 @@ import { elements } from './views/base';
 const state = {};
 
 /**
- * Search functional
+ * Search function
  */
 const controlSearch = async () => {
+    
     // GET QUERY FROM VIEW
     const query = searchView.getInput();
-    console.log(`query`);
+    console.log(`query: ${query}`);
 
     //CREATE NEW SEARCH OBJECT
     if(query){
@@ -25,6 +26,8 @@ const controlSearch = async () => {
         state.search = new Search(query);
 
         // PREPARE THE INTERFACE - LOADING SPINNER ETC.
+        searchView.clearInput();
+        searchView.clearResults();
 
         // SEARCH FOR RECIPES
         await state.search.getResults();

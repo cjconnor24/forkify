@@ -1,6 +1,16 @@
 import { elements } from './base';
 export const getInput = () => elements.searchInput.value;
 
+
+export const clearResults = () => {
+    elements.searchResultList.innerHTML = '';
+}
+
+// EMPTY THE TEXT BOX
+export const clearInput = () => {
+    elements.searchInput.value = '';
+};
+
 // FUNCTION TO RENDER AN INDIVIDUAL RECIPE
 const renderRecipe = recipe => {
 
@@ -24,4 +34,4 @@ elements.searchResultList.insertAdjacentHTML("beforeend", markup);
 // LOOP THROUGH RECIPE LIST AND OUTPUT
 export const renderResults = (recipes) => {
     recipes.forEach(renderRecipe);
-}
+};
