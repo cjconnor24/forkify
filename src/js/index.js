@@ -33,14 +33,21 @@ const controlSearch = async () => {
         // ADD SPINNER
         renderLoader(elements.searchResult);
 
-        // SEARCH FOR RECIPES
-        await state.search.getResults();
+        try {
+            // SEARCH FOR RECIPES
+            await state.search.getResults();
 
-        // CLEAN SPINNER
-        clearLoader(elementStrings.loader);
+            // CLEAN SPINNER
+            clearLoader(elementStrings.loader);
+    
+            // RENDER RESULTS ON UI
+            searchView.renderResults(state.search.result);
 
-        // RENDER RESULTS ON UI
-        searchView.renderResults(state.search.result);
+        } catch (error) {
+            console.log(`Something went wrong ${error}`);
+            clearLoader(elementStrings.loader);
+        }
+
     } else {
         console.log('NOTHING HAPPENED');
     }
@@ -52,6 +59,7 @@ elements.searchForm.addEventListener('submit', e => {
     controlSearch();
 });
 
+// SETUP PAGINATION EVENT LISTENER
 elements.searchResultPagination.addEventListener('click', e => {
     const btn = e.target.closest('.btn-inline');
     
@@ -66,5 +74,39 @@ elements.searchResultPagination.addEventListener('click', e => {
 
 // RECEIPE CONTROLLER
 
-const r = new Recipe(46956);
-r.getRecipe();
+const controlRecipe = async () => {
+    const id = window.location.hash.replace('#','');
+    console.log(id);
+
+    if(id){
+        // PREPARE UI FOR CHANGES
+
+        try {
+
+            // CREATE YOU REC OBJECT
+            state.recipe = new Recipe(id);
+    
+            // GET RECIPE DATA
+            await state.recipe.getRecipe();
+    
+            // CALCULATIONS
+            state.recipe.calcTime();
+            state.recipe.calcServings();
+    
+            // RENDER THE RECIPE
+            console.log(state.recipe);
+            
+        } catch (error) {
+
+            console.log(`Something went wrong: ${error}`);
+
+        }
+
+    }
+
+};
+
+// window.addEventListener('hashchange', controlRecipe);
+// window.addEventListener('load',controlRecipe);
+
+['hashchanged','load'].forEach(event => window.addEventListener(event,controlRecipe));
