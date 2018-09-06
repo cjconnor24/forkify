@@ -15,20 +15,19 @@ const state = {};
  * Search function
  */
 const controlSearch = async () => {
-    
+
     // GET QUERY FROM VIEW
     const query = searchView.getInput();
     console.log(`query: ${query}`);
 
     //CREATE NEW SEARCH OBJECT
-    if(query){
+    if (query) {
         // NEW SEARCH OBJECT AND ADD IT TO STATE
         state.search = new Search(query);
 
         // PREPARE THE INTERFACE - LOADING SPINNER ETC.
         searchView.clearInput();
         searchView.clearResults();
-        renderLoader(elements.searchResult);
 
         // ADD SPINNER
         renderLoader(elements.searchResult);
@@ -38,7 +37,7 @@ const controlSearch = async () => {
 
         // CLEAN SPINNER
         clearLoader(elementStrings.loader);
-        
+
         // RENDER RESULTS ON UI
         searchView.renderResults(state.search.result);
     } else {
@@ -52,6 +51,13 @@ elements.searchForm.addEventListener('submit', e => {
     controlSearch();
 });
 
-// const search = new Search('pizza');
-// console.log(search);
-// search.getResults();
+elements.searchResultPagination.addEventListener('click', e => {
+    const btn = e.target.closest('.btn-inline');
+    
+    if(btn){
+        const goToPage = parseInt(btn.dataset.goto,10);
+        searchView.clearResults();
+        searchView.renderResults(state.search.result, goToPage);
+    }
+    
+});
