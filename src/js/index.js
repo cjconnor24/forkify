@@ -28,6 +28,7 @@ const controlSearch = async () => {
         // PREPARE THE INTERFACE - LOADING SPINNER ETC.
         searchView.clearInput();
         searchView.clearResults();
+        renderLoader(elements.searchResult);
 
         // ADD SPINNER
         renderLoader(elements.searchResult);
