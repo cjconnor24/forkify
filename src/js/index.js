@@ -9,9 +9,7 @@ import { elements } from './views/base';
  * Shopping List Object
  * Liked Recipes
  */
-const state = {
-
-};
+const state = {};
 
 /**
  * Search functional
@@ -19,7 +17,7 @@ const state = {
 const controlSearch = async () => {
     // GET QUERY FROM VIEW
     const query = searchView.getInput();
-    console.log(query);
+    console.log(`query`);
 
     //CREATE NEW SEARCH OBJECT
     if(query){
@@ -32,17 +30,18 @@ const controlSearch = async () => {
         await state.search.getResults();
         
         // RENDER RESULTS ON UI
-        console.log(state.search.result);
+        searchView.renderResults(state.search.result);
+    } else {
+        console.log('NOTHING HAPPENED');
     }
 }
 
+// ADD AN EVENT LISTENER TO THE SEARCH FORM WHEN SUBMITTED
 elements.searchForm.addEventListener('submit', e => {
     e.preventDefault();
     controlSearch();
 });
 
-const search = new Search('pizza');
-console.log(search);
-search.getResults();
-
-
+// const search = new Search('pizza');
+// console.log(search);
+// search.getResults();
