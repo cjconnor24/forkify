@@ -41,4 +41,27 @@ export default class Receipe {
         this.servings = 4;
     }
 
+    parseIngredients(){
+
+        const unitsLong = ['tablespoons','tablespoon','ounces','ounce','teaspoons','teaspoon','cups','pounds'];
+        const unitsShort = ['tbsp','tbsp','oz','oz','tsp','tsp','cup','pound'];
+
+        const newIngredients = this.ingredients.map(el => {
+            // UNIFORM INGREDS
+            let ingredient = el.toLowerCase();
+            unitsLong.forEach((unit,i) => {
+                ingredient = ingredient.replace(unit,unitsShort[i]);
+            });
+
+            // REMOVE PARENTHESIS
+            ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');
+
+            // PARSE INGREDIENTS INTO COUNT UNIT AND INGREDIENT
+
+            return ingredient;
+        });
+        this.ingredients = newIngredients;
+
+    }
+
 }
