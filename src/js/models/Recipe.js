@@ -56,9 +56,50 @@ export default class Receipe {
             // REMOVE PARENTHESIS
             ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');
 
+            const arrIng = ingredient.split(' ');
+            const unitIndex = arrIng.findIndex(el2 => unitsShot.includes(el2));
+
+            let objIng;
+
+            if(unitIndex > -1){
+                
+                // THERE IS A UNIT
+                const arrCount = arrIng.slice(0, unitIndex);
+
+                let count;
+
+                if(arrCount.length === 1){
+                    count = eval(arrInc[0].replace('-','+'));
+                } else {
+                    count = eval(arrIng.slice(0, unitIndex).join('+'));
+                }
+
+                objIng = {
+                    count,
+                    unit: arrIng[unitIndex],
+                    ingredient: arrIng.slice(unitIndex+1).join(' ')
+                }
+
+
+            } else if(parseInt(arrIng[0], 10)) {
+                // THERE IS NO UNIT BUT 1ST ELEMENT IS NUMBER
+                objIng = {
+                    count: parseInt(arrIng[0], 10),
+                    unit: '',
+                    ingredient: arrIng.slice(1).join(' ')
+                };
+            } else if(unitIndex === -1){
+                // THERE IS NO UNIT AND NO NUMBER IN 1st POST
+                objIng = {
+                    count: 1,
+                    unit: '',
+                    ingredient
+                };
+            }
+
             // PARSE INGREDIENTS INTO COUNT UNIT AND INGREDIENT
 
-            return ingredient;
+            return objIng;
         });
         this.ingredients = newIngredients;
 
